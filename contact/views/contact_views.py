@@ -18,7 +18,7 @@ def index(request):
     )
 
 def search(request):
-    search_value = request.GET.get('q', '')
+    search_value = request.GET.get('q', '').strip()
 
     if search_value == "":
         return redirect('contact:index')
@@ -35,8 +35,8 @@ def search(request):
 
     context = {
         'contacts': contacts,
-        'site_title': 'Search'
-        
+        'site_title': 'Search',
+        'seach_value': search_value
     }
 
     return render(

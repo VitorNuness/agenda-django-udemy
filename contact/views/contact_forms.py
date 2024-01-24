@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_list_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from contact.forms import ContactForm
 from contact.models import Contact
@@ -38,7 +38,7 @@ def create(request):
     )
 
 def update(request, id):
-    contact = get_list_or_404(Contact, pk=id, show=True)
+    contact = get_object_or_404(Contact, pk=id, show=True)
     form_action = reverse('contact:update', id=id)
 
     if request.method == 'POST':
@@ -69,4 +69,25 @@ def update(request, id):
         request,
         'contact/create.html',
         context=context,
+    )
+
+
+
+def delete(request, id):
+    contact = get_object_or_404(
+        Contact, pk=id, show=True
+    )
+    confirmation = request.POST.get('confirmation', 'no')
+
+    if confirmation == 'yes':
+        contact.delete()
+        return redirect('contact:index')
+
+    return render(
+        request,
+        'contact/show.html',
+        {
+            'contact': contact,
+            'confirmation': confirmation,
+        }
     )

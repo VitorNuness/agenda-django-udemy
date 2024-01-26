@@ -11,11 +11,14 @@
   <p><b>Category:</b> {{ contact.category.name }}</p>
 
   {% if contact.picture %}
-    <p>
-      <img src="{{ contact.picture.url }}" alt="{{ contact.first_name }} {{ contact.last_name }}">
-    </p>
+  <p>
+    <img
+      src="{{ contact.picture.url }}"
+      alt="{{ contact.first_name }} {{ contact.last_name }}"
+    />
+  </p>
   {% endif %}
-
+  {% if user == contact.owner %}
   <div class="contact-links">
     <a class="btn btn-link" href="{% url 'contact:update' contact.id %}"
       >Update</a
@@ -30,5 +33,6 @@
       {% endif %}
     </form>
   </div>
+  {% endif %}
 </div>
 {% endblock content %}
